@@ -4,5 +4,8 @@
     }, 
     "terminal.integrated.env.linux": {
         "PATH": "${env:PATH}:${env:HOME}/BuildTools/Linux/gcc-arm-none-eabi-10.3-2021.07/bin:${env:HOME}/BuildTools/Linux/OpenOCD/bin"
+    },
+    "terminal.integrated.env.osx": {
+        "PATH": "${env:PATH}:/Applications/ARM/bin:/usr/local/bin"
     }
 }

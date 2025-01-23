@@ -8,12 +8,14 @@ STARTUP_DEFS=-D__STARTUP_CLEAR_BSS -D__START=main
 CFLAGS += -fno-builtin
 CFLAGS += -D ARM_MATH_CM$(CORTEX_M)
 
+
 LDSCRIPTS=-L. -L../$(BASE)/Library/Device/Nuvoton/$(DEVICE)/Source/GCC -T gcc_arm.ld
 
 LFLAGS=$(USE_NANO) $(USE_NOHOST) $(LDSCRIPTS) $(GC) $(MAP)
 
 IPATH =  .
 IPATH += $(BASE)/Library/CMSIS/Include
+IPATH += $(BASE)/Library/CMSIS/Core/Include  # 添加這一行M031BSP需添加
 IPATH += $(BASE)/Library/Device/Nuvoton/$(DEVICE)/Include
 IPATH += $(BASE)/Library/StdDriver/inc
 IPATH += ../NuLibrary
@@ -50,8 +52,19 @@ $(OBJ_BSP): $(BSP)
 	mkdir -p ./Objects
 	cd ./Objects && $(CC) $(addprefix ../,$^) $(CFLAGS) -c $(addprefix -I ../,$(IPATH))
 
+# Detect the operating system
+UNAME_S := $(shell uname -s)
+
+# Default flash command
+FLASH_CMD=openocd -f ../scripts/interface/nulink.cfg -f ../scripts/target/numicroM$(CORTEX_M).cfg -c "init" -c "reset halt" -c "flash write_image erase Objects/$(NAME).bin 0x00000000" -c "reset" -c "exit"
+
+# Override for macOS
+ifeq ($(UNAME_S), Darwin)
+    FLASH_CMD=sudo openocd -s /usr/local/share/openocd/scripts -f interface/nulink.cfg -f target/numicroM$(CORTEX_M).cfg -c "init" -c "reset halt" -c "flash write_image erase Objects/$(NAME).bin 0x00000000" -c "reset" -c "exit"
+endif
+
 flash:
-	openocd -f ../scripts/interface/nulink.cfg -f ../scripts/target/numicroM$(CORTEX_M).cfg -c "init" -c "reset halt" -c "flash write_image erase Objects/$(NAME).bin 0x00000000" -c "reset" -c "exit"
+	$(FLASH_CMD)
 
 clean:
 	cd ./Objects && rm -f *.axf *.map *.o *.bin
