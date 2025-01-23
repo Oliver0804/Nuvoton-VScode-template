@@ -15,7 +15,7 @@ LFLAGS=$(USE_NANO) $(USE_NOHOST) $(LDSCRIPTS) $(GC) $(MAP)
 
 IPATH =  .
 IPATH += $(BASE)/Library/CMSIS/Include
-IPATH += $(BASE)/Library/CMSIS/Core/Include  # 添加這一行M031BSP需添加
+IPATH += $(BASE)/Library/CMSIS/Core/Include  # add this line for fixed M031 configuration
 IPATH += $(BASE)/Library/Device/Nuvoton/$(DEVICE)/Include
 IPATH += $(BASE)/Library/StdDriver/inc
 IPATH += ../NuLibrary
