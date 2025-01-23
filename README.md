@@ -26,6 +26,11 @@ chmod +x ~/BuildTools/Linux/OpenOCD/bin/openocd
 ```
 sudo apt install make
 ```
+#### macOS users
+- [gcc-arm-none-eabi-10.3-2021.10-mac.pkg](https://developer.arm.com/downloads/-/gnu-rm)
+- [OpenOCD-Nuvoton](https://github.com/OpenNuvoton/OpenOCD-Nuvoton/releases)
+You can install `gcc-arm-none-eabi-10.3-2021.10-mac.pkg` using the default settings. 
+The installation location will be the default path: `/Applications/ARM/bin`.
 ### Build the template
 If you want to build the target for Nuvoton M480 series for example. Open a terminal inside the VScode.
 ```
